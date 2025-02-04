@@ -1,6 +1,5 @@
 import { ObjectId } from "mongodb";
 import clientPromise from "@/lib/mongodb";
-import bcrypt from 'bcrypt';
 
 export default async function Usuarios(req, res) {
     try {
@@ -45,8 +44,8 @@ export default async function Usuarios(req, res) {
         else if(req.method==="PUT"){
             try {          
                 const {usuarioId,role}=req.body;
-                if(!usuarioId)return res.status(400).json({error:"Faltan datos"})
-        
+                if(!usuarioId||!role)return res.status(400).json({error:"Faltan datos"})
+                console.log(usuarios,role);
                 const id=ObjectId.createFromHexString(usuarioId)
         
                 const editar=await collect.updateOne(

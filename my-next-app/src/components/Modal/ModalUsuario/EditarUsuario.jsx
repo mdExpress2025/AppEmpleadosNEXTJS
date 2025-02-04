@@ -9,7 +9,6 @@ import notyf from "@/utils/notificacion";
 function ModalEditarUsuario({ isOpen, onRequestClose, usuario, notificacion }) {
     if (!usuario) return null;
 
-    console.log(usuario)
 
     const [editing, setEditing] = useState(false);
     const [rolesDis, setRolesDis] = useState([])
@@ -40,7 +39,7 @@ function ModalEditarUsuario({ isOpen, onRequestClose, usuario, notificacion }) {
             const resul = await fetch("/api/Usuarios", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ usuarioId: usuario._id,role:role}),
+                body: JSON.stringify({ usuarioId:usuario._id ,role:role}),
             });
 
             onRequestClose();
