@@ -45,7 +45,6 @@ export default async function Usuarios(req, res) {
             try {          
                 const {usuarioId,role}=req.body;
                 if(!usuarioId||!role)return res.status(400).json({error:"Faltan datos"})
-                console.log(usuarios,role);
                 const id=ObjectId.createFromHexString(usuarioId)
         
                 const editar=await collect.updateOne(
@@ -56,6 +55,7 @@ export default async function Usuarios(req, res) {
         
                 res.status(200).json({message:"usuario actualizado con exito!"})
             } catch (error) {
+                console.log("errro aqui")
                 res.status(500).json({error})
             }
         }

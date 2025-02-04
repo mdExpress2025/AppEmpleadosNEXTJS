@@ -16,6 +16,7 @@ function ModalBorrarUsuario ({ isOpen,onRequestClose, usuario, notificacion }) {
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
+        borderRadius:"20px"
     };
 
     const eliminarEmpleado = async () => {
@@ -49,9 +50,11 @@ function ModalBorrarUsuario ({ isOpen,onRequestClose, usuario, notificacion }) {
         <Modal
             open={isOpen}
             onClose={onRequestClose}
+            disablePortal
+            closeAfterTransition
         >
             <Box sx={style}>
-                <div className="h-[140px] w-[160px] rounded-[10px] font-mono">
+                <div className="h-[140px] w-[160px] rounded-xl font-mono ">
                     <div className="flex justify-end">
                         <button
                             className="border border-black px-[8px] rounded-[10px] hover:scale-105 transition-transform duration-300"

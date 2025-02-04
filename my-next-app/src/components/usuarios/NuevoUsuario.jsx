@@ -31,7 +31,7 @@ function AgregarUsuario ()  {
                 setEmail("")
                 setUser("")
                 setRole("")
-                localStorage.removeItem("usuarios");
+                sessionStorage.removeItem("usuarios");
             } else if (Guardar.status == 400) {
                 notyf.error("Error al guardar usuario");
             }

@@ -1,22 +1,15 @@
-"use client"
+"use client";
 
 import { useState } from "react";
-import { Modal, Box } from "@mui/material"
+import { Modal, Box } from "@mui/material";
+import { X } from "lucide-react";
 import notyf from "@/utils/notificacion";
 
-function ModalEditarEmpleados  ({ isOpen, onRequestClose,empleado, notificacion })  {
+function ModalEditarEmpleados({ isOpen, onRequestClose, empleado, notificacion }) {
     const [isEditing, setIsEditing] = useState(false);
     const [alias, setAlias] = useState("");
 
     if (!empleado) return null;
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        p: 4,
-    };
 
     const EditarEmpleado = async () => {
         if (isEditing) return;
@@ -36,16 +29,17 @@ function ModalEditarEmpleados  ({ isOpen, onRequestClose,empleado, notificacion 
             const resul = await fetch("/api/Empleados", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(
-                    { empleadoId: empleado._id,
-                      alias: alias                      
-                    }), 
+                body: JSON.stringify({ 
+                    empleadoId: empleado._id,
+                    alias: alias                      
+                }), 
             });
+
             onRequestClose();
             setTimeout(() => {
-                cambios._id=empleado._id;
+                cambios._id = empleado._id;
                 if (resul.status === 200) {
-                    notificacion(200,cambios);
+                    notificacion(200, cambios);
                 } else {
                     notificacion(400);
                 }
@@ -58,41 +52,67 @@ function ModalEditarEmpleados  ({ isOpen, onRequestClose,empleado, notificacion 
             setIsEditing(false);
         } finally {
             setIsEditing(false);
-            setAlias("")         
+            setAlias("");
         }
     };
-
 
     return (
         <Modal
             open={isOpen}
-            onClose={()=>{setAlias(""); onRequestClose()}}
+            onClose={() => { setAlias(""); onRequestClose(); }}
+            disablePortal
+            closeAfterTransition
         >
-            <Box sx={style}>
-                <div className="flex flex-col items-center gap-4 bg-slate-300 h-[220px] w-[260px] rounded-xl p-4 text-[15px]">
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "90%",
+                    maxWidth: "400px", 
+                    p: 4,
+                    borderRadius: "12px",
+                }}
+            >
+                <div className="w-full max-w-sm mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="flex justify-end">
+                        <button
+                            disabled={isEditing}
+                            onClick={onRequestClose}
+                            className="text-gray-500 hover:text-gray-700"
+                        >
+                            <X className="h-6 w-6" />
+                        </button>
+                    </div>
 
-                    <div className="w-[280px] flex flex-col items-center mt-3">
-                        <p className="mt-1">Ingrese el nuevo Alias</p>
+                    <div className="text-center mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900">Editar empleado</h3>
+                    </div>
+
+                    <div className="flex flex-col space-y-3">
                         <input
-                            className="rounded-md mt-5 p-2 w-[220px]"
                             type="text"
-                            placeholder={empleado.alias}
                             value={alias}
                             onChange={(e) => setAlias(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            placeholder={empleado.alias}
                         />
-                    </div>
-                    <div className="flex justify-center mt-5">
-                        <button className={`border border-white py-2 px-4 rounded-xl ${!isEditing?'hover:bg-white duration-300 hover:scale-105':'opacity-50 cursor-not-allowed'} `}
+
+                        <button
                             onClick={() => EditarEmpleado()}
+                            type="submit"
                             disabled={isEditing}
+                            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors focus:outline-none 
+                                ${isEditing ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"}`}
                         >
-                            {isEditing?"Editando...": "Editar"}
+                            {isEditing ? "Guardando..." : "Guardar"}
                         </button>
                     </div>
                 </div>
             </Box>
         </Modal>
     );
-};
+}
 
 export default ModalEditarEmpleados;

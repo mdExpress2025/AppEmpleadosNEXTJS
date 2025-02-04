@@ -3,8 +3,9 @@
 
 import { useState } from "react";
 import { Modal, Box } from "@mui/material"
+import { X,CheckCircle,XCircle } from "lucide-react";
 
-function ModalBorrarLugar  ({ isOpen,onRequestClose, lugar, notificacion }) {
+function ModalBorrarLugar({ isOpen, onRequestClose, lugar, notificacion }) {
     const [isDeleting, setIsDeleting] = useState(false);
 
     if (!lugar) return null;
@@ -14,12 +15,12 @@ function ModalBorrarLugar  ({ isOpen,onRequestClose, lugar, notificacion }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        bgcolor: 'background.paper',
-        boxShadow: 24,
+        width: '90%',
+        maxWidth: '400px',
         p: 4,
+        borderRadius: "16px"
     };
-
-    const eliminarEmpleado = async () => {
+    const eliminarLugar = async () => {
         if (isDeleting) return;
 
         setIsDeleting(true);
@@ -50,47 +51,71 @@ function ModalBorrarLugar  ({ isOpen,onRequestClose, lugar, notificacion }) {
         <Modal
             open={isOpen}
             onClose={onRequestClose}
+            disablePortal
+            closeAfterTransition
         >
             <Box sx={style}>
-                <div className="h-[140px] w-[160px] rounded-[10px] font-mono">
-                    <div className="flex justify-end">
+                <div className="w-full max-w-sm mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="flex justify-end mb-4">
                         <button
-                            className="border border-black px-[8px] rounded-[10px] hover:scale-105 transition-transform duration-300"
                             onClick={onRequestClose}
                             disabled={isDeleting}
+                            className="text-gray-500 hover:text-gray-700"
                         >
-                            X
+                            <X className="h-6 w-6" />
                         </button>
                     </div>
-                    <h3 className="mt-2 mb-4">
-                        ¿Estás seguro de eliminar a <b>{lugar.nombre}</b>?
-                    </h3>
-                    <div className="flex justify-center">
-                        <button
-                            onClick={eliminarEmpleado}
-                            disabled={isDeleting}
-                            className={`
-                            bg-green-600 py-1 px-[20px] mr-4 rounded-[10px] 
-                            ${!isDeleting ? 'hover:scale-105 hover:bg-green-800' : 'opacity-50 cursor-not-allowed'} 
-                            transition-transform duration-300
-                        `}
-                        >
-                            {isDeleting ? 'Eliminando...' : 'SÍ'}
-                        </button>
-                        {
-                            !isDeleting ? (<button
-                                disabled={isDeleting}
-                                onClick={onRequestClose}
-                                className={`
-                                bg-red-600 py-1 px-4 rounded-[10px]
-                                ${!isDeleting ? 'hover:scale-105 hover:bg-red-800' : 'opacity-50 cursor-not-allowed'}
-                                transition-transform duration-300
-                            `}
-                            >
-                                NO
-                            </button>) : ""
-                        }
 
+                    <div className="flex flex-col items-center text-center">
+
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                            ¿Estás seguro de eliminar a <b>{lugar.nombre}</b>?
+                        </h3>
+
+                        <div className="flex space-x-4 mt-4">
+                            <button
+                                onClick={eliminarLugar}
+                                disabled={isDeleting}
+                                className={`
+        flex items-center justify-center
+        w-32 py-2 px-4 
+        bg-emerald-600 text-white 
+        rounded-lg font-medium 
+        transition-colors focus:outline-none duration-300
+        whitespace-nowrap
+        ${!isDeleting
+                                        ? 'hover:bg-emerald-700 '
+                                        : 'opacity-50 cursor-not-allowed'}
+    `}
+                            >
+                                {!isDeleting ? (
+                                    <>
+                                        <CheckCircle className="mr-2 w-5 h-5" />
+                                        Sí, eliminar
+                                    </>
+                                ) : (
+                                    'Eliminando...'
+                                )}
+                            </button>
+
+                            {!isDeleting && (
+                                <button
+                                    onClick={onRequestClose}
+                                    className={`
+            flex items-center justify-center
+            w-32 py-2 px-4 
+            bg-red-600 text-white 
+            rounded-lg font-medium 
+            transition-colors focus:outline-none
+            whitespace-nowrap
+            hover:bg-red-700  duration-300
+        `}
+                                >
+                                    <XCircle className="mr-2 w-5 h-5" />
+                                    No, cancelar
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </Box>
