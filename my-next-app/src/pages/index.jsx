@@ -15,7 +15,7 @@ function Home() {
           <div className="w-[300px] flex flex-col items-center font-mono ">
             <div className="w-full text-center ">
               <div className="flex items-center justify-center mb-[10px]" >
-                <Image src="/Image_Editor.png" alt="Logo MD express" width={80} height={80}
+                <Image src="/Image_Editor.png" alt="Logo MD express"  width={80} height={80}
                   className="rounded-full "
                 />
               </div>

@@ -4,9 +4,12 @@ import { useState,useEffect } from "react";
 import { Modal, Box } from "@mui/material"
 import { ROLES } from "@/config/permissions";
 import { X } from "lucide-react";
+import notyf from "@/utils/notificacion";
 
 function ModalEditarUsuario({ isOpen, onRequestClose, usuario, notificacion }) {
     if (!usuario) return null;
+
+    console.log(usuario)
 
     const [editing, setEditing] = useState(false);
     const [rolesDis, setRolesDis] = useState([])
@@ -28,6 +31,7 @@ function ModalEditarUsuario({ isOpen, onRequestClose, usuario, notificacion }) {
     };
 
     const EditarLugar = async () => {
+        if(!role)return notyf.error("Seleccione un rol")
         if (editing) return;
 
         try {
@@ -46,7 +50,6 @@ function ModalEditarUsuario({ isOpen, onRequestClose, usuario, notificacion }) {
                 } else {
                     notificacion(400);
                 }
-                setIsEditing(false);
             }, 100);
         } catch (error) {
             console.error("Error al editar usuario:", error);

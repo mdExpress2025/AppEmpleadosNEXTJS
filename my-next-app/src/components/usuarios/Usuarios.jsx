@@ -21,7 +21,7 @@ function Usuarios () {
 
   useEffect(() => {
     const obtenerEmpleados = async () => {
-        const usuar = localStorage.getItem("usuarios");
+        const usuar = sessionStorage.getItem("usuarios");
         if (usuar) {
             setUsuarios(JSON.parse(usuar)); 
         } else {
@@ -31,7 +31,7 @@ function Usuarios () {
                 if (response.ok) {
                     const data = await response.json();
                     setUsuarios(data.usuarios);
-                    localStorage.setItem("usuarios", JSON.stringify(data.usuarios));
+                    sessionStorage.setItem("usuarios", JSON.stringify(data.usuarios));
                 } else {
                     console.error("Error al obtener los usuarios de la API");
                 }
@@ -73,7 +73,7 @@ function Usuarios () {
       setUsuarios((prevUsuarios) =>
         prevUsuarios.filter((u) => u._id !== usuarioSeleccionado._id)
       );
-      localStorage.setItem(
+      sessionStorage.setItem(
         "usuarios",
         JSON.stringify(
           usuarios.filter((u) => u._id !== usuarioSeleccionado._id)
@@ -102,7 +102,7 @@ function Usuarios () {
     if (notif === 200) {
       setUsuarios((prev)=>{
         const nuevosUsuarios=prev.map(u=>u._id==usu._id?{...u,...usu}:u)
-        localStorage.setItem("usuarios",JSON.stringify(nuevosUsuarios));
+        sessionStorage.setItem("usuarios",JSON.stringify(nuevosUsuarios));
         return nuevosUsuarios;
       }
       )     
