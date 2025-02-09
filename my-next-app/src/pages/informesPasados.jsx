@@ -38,7 +38,6 @@ function InformePasado() {
                     const response = await fetch(`/api/Informe?supervisorId=${supervisorId}`);
                     if (response.ok) {
                         const data = await response.json();
-                        // Ordenar los informes antes de guardarlos
                         const informesOrdenados = data.informes.sort((a, b) => {
                             const fechaA = new Date(a.fechaInforme);
                             const fechaB = new Date(b.fechaInforme);
